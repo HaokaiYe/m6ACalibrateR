@@ -5,7 +5,7 @@ N6-methyladenosine (m6A) is the most prevalent and functionally significant mRNA
 
 ### Installation
 To install m6ACalibrateR from Github, please use the following command in R console.
-```
+``` r
 if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
 
@@ -14,12 +14,12 @@ devtools::install_github("HaokaiYe/m6ACalibrateR")
 
 ### Usage
 First, load the package into R.
-```
+``` r
 library(m6ACalibrateR)
 ```
 
 Example m6A coordinates can be found in inst/extdata:
-```
+``` r
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 library(BSgenome.Hsapiens.UCSC.hg38)
 
