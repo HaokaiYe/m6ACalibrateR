@@ -13,18 +13,21 @@ devtools::install_github("HaokaiYe/m6ACalibrateR")
 ```
 
 ### Usage
-Example m6A coordinates can be found in inst/extdata:
-```
-x <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
-```
-It is recommended to use the function **encGeo** to generate the encoding. Different encodings can be selected by the parameter *type*:
+First, load the package into R.
 ```
 library(m6ACalibrateR)
+```
+
+Example m6A coordinates can be found in inst/extdata:
+```
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 library(BSgenome.Hsapiens.UCSC.hg38)
 
+# Load example data
 txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
 bsgenome <- BSgenome.Hsapiens.UCSC.hg38
+
+x <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
 
 # Calibrate m6A maps with default parameters
 calibrated_m6A <- m6ACalibrate(x, txdb, bsgenome, "ensemble")
