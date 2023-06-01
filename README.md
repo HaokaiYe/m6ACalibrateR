@@ -18,18 +18,49 @@ First, load the package into R.
 library(m6ACalibrateR)
 ```
 
-Example m6A coordinates can be found in inst/extdata:
+Example 1: Using a gene annotation GFF/GTF file for transcript annotation
 ``` r
+# Load example data
+x <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
+
+# Specify gtf file path
+gtf_file_path <- system.file("extdata", "annotation.gtf", package = "m6ACalibrateR")
+
+# Calibrate m6A maps
+calibrated_m6A <- m6ACalibrate(x, gff = gtf_file_path, genome = "hg38", anti_type = "ensemble")
+calibrated_m6A
+```
+
+
+Example 2: Using a TxDb object for transcript annotation and a BSgenome object for the reference genome
+``` r
+# Load example data
+x <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
+
+# Load TxDb and BSgenome
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 library(BSgenome.Hsapiens.UCSC.hg38)
-
-# Load example data
 txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
 bsgenome <- BSgenome.Hsapiens.UCSC.hg38
 
+# Calibrate m6A maps
+calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "ensemble")
+calibrated_m6A
+```
+
+
+Example 3: Changing antibody type and false positive threshold
+``` r
+# Load example data
 x <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
 
-# Calibrate m6A maps with default parameters
-calibrated_m6A <- m6ACalibrate(x, txdb, bsgenome, "ensemble")
+# Load TxDb and BSgenome
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+library(BSgenome.Hsapiens.UCSC.hg38)
+txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+bsgenome <- BSgenome.Hsapiens.UCSC.hg38
+
+# Calibrate m6A maps
+calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "Abcam", FP_threshold = 0.4)
 calibrated_m6A
 ```
