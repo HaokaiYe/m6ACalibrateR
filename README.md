@@ -5,7 +5,7 @@ N6-methyladenosine (m6A) is the most prevalent and functionally significant mRNA
 
 ### Installation
 To install m6ACalibrateR from Github, please use the following command in R console.
-```
+``` r
 if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
 
@@ -13,16 +13,23 @@ devtools::install_github("HaokaiYe/m6ACalibrateR")
 ```
 
 ### Usage
+First, load the package into R.
+``` r
+library(m6ACalibrateR)
+```
+
 Example m6A coordinates can be found in inst/extdata:
+``` r
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+library(BSgenome.Hsapiens.UCSC.hg38)
+
+# Load example data
+txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+bsgenome <- BSgenome.Hsapiens.UCSC.hg38
+
+x <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
+
+# Calibrate m6A maps with default parameters
+calibrated_m6A <- m6ACalibrate(x, txdb, bsgenome, "ensemble")
+calibrated_m6A
 ```
-input <- import.bed(system.file("extdata", "example.bed", package = "Geo2vec"))
-```
-It is recommended to use the function **encGeo** to generate the encoding. Different encodings can be selected by the parameter *type*:
-```
-library(EnsDb.Hsapiens.v86)
-encoding <- encGeo(input, EnsDb.Hsapiens.v86, type='onehotTX', window=50, exon_only=T, long_tx=T, mRNA=T)
-encoding <- encGeo(input, EnsDb.Hsapiens.v86, type='landmarkTX', long_tx=T, mRNA=T)
-encoding <- encGeo(input, EnsDb.Hsapiens.v86, type='gridTX', ngrid=40, exon_only=T, long_tx=T, mRNA=T)
-encoding <- encGeo(input, EnsDb.Hsapiens.v86, type='chunkTX', exon_only=T, long_tx=T, mRNA=T)
-```
-The current version of the package supports transcription annotation packages in the form of TxDb (e.g., TxDb.Hsapiens.UCSC.hg19.knownGene) and EnsDb.
