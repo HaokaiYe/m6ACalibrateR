@@ -18,7 +18,7 @@
 #' @param gff optional, a \code{character} which specifies the directory toward a gene annotation GFF/GTF file, it is applied when the \code{TxDb} object is not available; default \code{= NULL}.
 #'
 #' @param anti_type A \code{character} specifying the type of m6A-specific antibody, can be one of \code{c("Abcam", "NEB", "SYSY", "ensemble")}; default \code{= "ensemble"}.
-#' @param FP_threshold A \code{numeric} value specifying the probability cutoff in predicting false positives at each m6A site.
+#' @param FP_threshold A \code{numeric} value specifying the probability cutoff in predicting false positives at each m6A site. This parameter is applicable only when \code{anti_type = "ensemble"}. For other anti_type settings, the cutoff defaults to the proportion of false positives present in the corresponding training set.
 #'
 #' It should be a numeric value between 0 and 1, where smaller values indicate stricter filtering; default \code{= 0.5}.
 #'
@@ -59,7 +59,7 @@
 #' bsgenome <- BSgenome.Hsapiens.UCSC.hg38
 #'
 #' # Calibrate m6A maps
-#' calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "ensemble")
+#' calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "ensemble", FP_threshold = 0.4)
 #' calibrated_m6A
 #'
 #'
@@ -74,7 +74,7 @@
 #' bsgenome <- BSgenome.Hsapiens.UCSC.hg38
 #'
 #' # Calibrate m6A maps
-#' calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "Abcam", FP_threshold = 0.4)
+#' calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "Abcam")
 #' calibrated_m6A
 #'
 #
