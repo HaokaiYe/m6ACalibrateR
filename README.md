@@ -44,7 +44,7 @@ txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
 bsgenome <- BSgenome.Hsapiens.UCSC.hg38
 
 # Calibrate m6A maps
-calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "ensemble")
+calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "ensemble", FP_threshold = 0.4)
 calibrated_m6A
 ```
 
@@ -61,6 +61,6 @@ txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
 bsgenome <- BSgenome.Hsapiens.UCSC.hg38
 
 # Calibrate m6A maps
-calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "Abcam", FP_threshold = 0.4)
+calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "Abcam")
 calibrated_m6A
 ```
