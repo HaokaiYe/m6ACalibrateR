@@ -27,7 +27,10 @@ peaks <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
 gtf_path <- system.file("extdata", "annotation.gtf", package = "m6ACalibrateR")
 
 # Perform calibration using an ensemble model
-calibrated_peaks <- m6ACalibrate(peaks, gff = gtf_path, genome = "hg38", model_type = "ensemble")
+calibrated_peaks <- m6ACalibrate(peaks,
+                                 gff = gtf_path,
+                                 genome = "hg38",
+                                 model_type = "ensemble")
 print(calibrated_peaks)
 ```
 
@@ -45,7 +48,11 @@ txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
 bsgenome <- BSgenome.Hsapiens.UCSC.hg38
 
 # Calibrate m6A maps using a specific false positive threshold
-calibrated_peaks_ensemble <- m6ACalibrate(peaks, txdb = txdb, genome = bsgenome, model_type = "ensemble", FP_threshold = 0.6)
+calibrated_peaks_ensemble <- m6ACalibrate(peaks,
+                                          txdb = txdb,
+                                          genome = bsgenome,
+                                          model_type = "ensemble",
+                                          FP_threshold = 0.6)
 print(calibrated_peaks_ensemble)
 ```
 
@@ -55,6 +62,11 @@ Example 3: Customizing antibody type and filter mode
 # Reload example m6A peak data (assuming 'peaks' variable already loaded)
 
 # Calibrate using a specific antibody (e.g., "Abcam") and a filter mode to exclude flanking regions around false positives
-calibrated_peaks_abcam <- m6ACalibrate(peaks, txdb = txdb, genome = bsgenome, model_type = "Abcam", filter_mode = "flankExclusion", flank_width = 100)
+calibrated_peaks_abcam <- m6ACalibrate(peaks,
+                                       txdb = txdb,
+                                       genome = bsgenome,
+                                       model_type = "Abcam",
+                                       filter_mode = "flankExclusion",
+                                       flank_width = 100)
 print(calibrated_peaks_abcam)
 ```
