@@ -1,5 +1,5 @@
 
-feature_extraction <- function(x, txdb){
+extractGeoFeature <- function(x, txdb){
 
   ################################################################################
   ####                                exons                                   ####
@@ -348,12 +348,17 @@ topologyOnTranscripts <- function(x,
 ####                           sampleSequence                               ####
 ################################################################################
 
-sampleSequence <- function(motif, region, sequence, fixed = FALSE, replace = FALSE){
+sampleSequence <- function(motif, region, sequence, fixed = FALSE){
   require(BSgenome)
   require(GenomicFeatures)
   stopifnot(is(region, "GRangesList")|is(region, "GRanges"))
-  if(is(region, "GRangesList")) region <- unlist(region)
-  region <- reduce(region)
+
+  isGrl <- is(region, "GRangesList")
+  if(isGrl) {
+    region <- unlist(region)
+    region$listId <- sub("\\..*$", "", names(region))
+  }
+  #region <- reduce(region)
 
   region_dnass <- getSeq(x=sequence,
                          names=seqnames(region),
@@ -372,7 +377,17 @@ sampleSequence <- function(motif, region, sequence, fixed = FALSE, replace = FAL
   rm(vmp)
   motif_on_regions <- mapFromTranscripts(vmp_gr,regions_GRL)
   rm(vmp_gr, regions_GRL)
-  mcols(motif_on_regions) = NULL
+
+  transcriptsHits <- motif_on_regions$transcriptsHits
+  mcols(motif_on_regions) <- NULL
+  if (isGrl) {
+    motif_on_regions$sourceHits <- region$listId[transcriptsHits]
+    names(motif_on_regions) <- motif_on_regions$sourceHits
+  } else {
+    motif_on_regions$sourceHits <- transcriptsHits
+  }
+  rm(transcriptsHits)
+
   seqlengths(motif_on_regions) <- seqlengths(region)
   return(motif_on_regions)
 }
