@@ -18,49 +18,55 @@ First, load the package into R.
 library(m6ACalibrateR)
 ```
 
-Example 1: Using a gene annotation GFF/GTF file for transcript annotation
+Example 1: Using a GFF/GTF file for transcript annotation
 ``` r
-# Load example data
-x <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
+# Load example m6A peak data
+peaks <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
 
-# Specify gtf file path
-gtf_file_path <- system.file("extdata", "annotation.gtf", package = "m6ACalibrateR")
+# Path to the gene annotation file
+gtf_path <- system.file("extdata", "annotation.gtf", package = "m6ACalibrateR")
 
-# Calibrate m6A maps
-calibrated_m6A <- m6ACalibrate(x, gff = gtf_file_path, genome = "hg38", anti_type = "ensemble")
-calibrated_m6A
+# Perform calibration using an ensemble model
+calibrated_peaks <- m6ACalibrate(peaks,
+                                 gff = gtf_path,
+                                 genome = "hg38",
+                                 model_type = "ensemble")
+print(calibrated_peaks)
 ```
 
 
 Example 2: Using a TxDb object for transcript annotation and a BSgenome object for the reference genome
 ``` r
-# Load example data
-x <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
+# Reload example m6A peak data (assuming 'peaks' variable already loaded)
 
-# Load TxDb and BSgenome
+# Load necessary libraries for TxDb and BSgenome
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 library(BSgenome.Hsapiens.UCSC.hg38)
+
+# Define TxDb and BSgenome objects
 txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
 bsgenome <- BSgenome.Hsapiens.UCSC.hg38
 
-# Calibrate m6A maps
-calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "ensemble", FP_threshold = 0.4)
-calibrated_m6A
+# Calibrate m6A maps using a specific false positive threshold
+calibrated_peaks_ensemble <- m6ACalibrate(peaks,
+                                          txdb = txdb,
+                                          genome = bsgenome,
+                                          model_type = "ensemble",
+                                          FP_threshold = 0.6)
+print(calibrated_peaks_ensemble)
 ```
 
 
-Example 3: Changing antibody type and false positive threshold
+Example 3: Customizing antibody type and filter mode
 ``` r
-# Load example data
-x <- readRDS(system.file("extdata", "peaks.rds", package = "m6ACalibrateR"))
+# Reload example m6A peak data (assuming 'peaks' variable already loaded)
 
-# Load TxDb and BSgenome
-library(TxDb.Hsapiens.UCSC.hg38.knownGene)
-library(BSgenome.Hsapiens.UCSC.hg38)
-txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
-bsgenome <- BSgenome.Hsapiens.UCSC.hg38
-
-# Calibrate m6A maps
-calibrated_m6A <- m6ACalibrate(x, txdb = txdb, genome = bsgenome, anti_type = "Abcam")
-calibrated_m6A
+# Calibrate using a specific antibody (e.g., "Abcam") and a filter mode to exclude flanking regions around false positives
+calibrated_peaks_abcam <- m6ACalibrate(peaks,
+                                       txdb = txdb,
+                                       genome = bsgenome,
+                                       model_type = "Abcam",
+                                       filter_mode = "flankExclusion",
+                                       flank_width = 100)
+print(calibrated_peaks_abcam)
 ```
