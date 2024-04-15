@@ -6,12 +6,12 @@
 #'
 #' Designed to seamlessly integrate into existing m6A profiling pipelines, this function acts as a critical subsequent step following the initial peak calling process.
 #'
-#' By accurately extracting and calibrating motifs from m6A peaks, and utilizing a selected model to meticulously identify and filter out false positives, \code{m6ACalibrate} significantly enhances the precision of m6A site identification.
+#' By accurately extracting and calibrating motifs from m6A peaks, and utilizing a selected model to meticulously identify and filter out false positives, \code{m6ACalibrate} significantly enhances the precision of m6A site/peak identification.
 #'
 #' The ability to choose from different filtering modes (\code{"directFilter"}, \code{"strictFilter"}, and \code{"flankExclusion"}) allows for customized calibration that can adapt to various analysis requirements, thus enabling a more tailored approach to site validation.
 #'
 #'
-#' @param x A \code{\link{GRanges}} or \code{\link{GRangesList}} object for the genomic location of m6A sites.
+#' @param x A \code{\link{GRanges}} or \code{\link{GRangesList}} object for the genomic location of m6A sites/peaks.
 #'
 #' @param txdb A \code{\link{TxDb}} object for the transcript annotation.
 #' The \code{TxDb} can be obtained from either Bioconductor or from the GFF/GTF files using the function \code{\link{makeTxDbFromGFF}}.
@@ -65,7 +65,7 @@
 #'   \item If \code{save_motif_prob = TRUE}, a list object containing two elements:
 #'     \describe{
 #'       \item{motif}{A \code{\link{GRanges}} object containing the predicted motifs. Each motif includes its false positive probabilities (\code{pred_FP_prob}) and annotations indicating from which region of 'x' it was derived (\code{sourceHits}).}
-#'       \item{calibrated_m6A}{A \code{\link{GRanges}} or \code{\link{GRangesList}} object containing the calibrated m6A sites, matching the format of the input 'x'.}
+#'       \item{calibrated_m6A}{A \code{\link{GRanges}} or \code{\link{GRangesList}} object containing the calibrated m6A sites/peaks, matching the format of the input 'x'.}
 #'     }
 #' }
 #'
